@@ -51,4 +51,4 @@ jobs:
     - name: Tofu Apply
       id: apply
       run: tofu apply -no-color -auto-approve
-      continue-on-error: true
+      continue-on-error: false
