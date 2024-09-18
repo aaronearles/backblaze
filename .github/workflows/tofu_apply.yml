@@ -1,0 +1,54 @@
+name: 'Tofu Apply'
+ 
+on:
+  push:
+    paths:
+      - 'terraform/**'
+    branches: [ "main" ]
+  workflow_dispatch:
+ 
+jobs:
+  tofu:
+    name: 'Tofu'
+    env:
+      TF_VAR_B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
+      TF_VAR_B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+
+    runs-on: ubuntu-latest
+    # environment: # No Environments available in Private (Free) Repo
+ 
+    defaults:
+      run:
+        working-directory: ./terraform/
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: opentofu/setup-opentofu@v1
+      with:
+      #   tofu_version: 1.8.0
+        tofu_wrapper: false
+    
+    - name: Tofu fmt
+      id: fmt
+      run: tofu fmt -check
+      continue-on-error: true
+    
+    - name: Tofu Init
+      id: init
+      run: tofu init
+      continue-on-error: false
+    
+    - name: Tofu Validate
+      id: validate
+      run: tofu validate -no-color
+      continue-on-error: false
+    
+    - name: Tofu Plan
+      id: plan
+      run: tofu plan -no-color
+      continue-on-error: false
+  
+    - name: Tofu Apply
+      id: apply
+      run: tofu apply -no-color -auto-approve
+      continue-on-error: true
