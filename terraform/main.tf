@@ -8,7 +8,7 @@ backend "s3" {
     endpoints = {
       s3 = "s3.us-west-004.backblazeb2.com"
     }
-    access_key = "terraform" //B2 keyName
+    access_key = var.b2_application_key_id //B2 keyID
     secret_key = var.b2_application_key //B2 applicationKey
     bucket = "earles-tfstate"
     key    = "terraform_backblaze.tfstate"
@@ -17,6 +17,7 @@ backend "s3" {
     skip_credentials_validation = true
     skip_metadata_api_check     = true
     skip_region_validation      = true
+    skip_s3_checksum            = true
 }
 }
 
