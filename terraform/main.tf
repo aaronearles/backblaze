@@ -15,6 +15,6 @@ provider "b2" {
 }
 
 resource "b2_bucket" "earles_backup" {
-  bucket_name = "earles_backup"
+  bucket_name = "earles-backup"
   bucket_type = "allPrivate"
 }
