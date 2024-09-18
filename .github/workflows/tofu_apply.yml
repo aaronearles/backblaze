@@ -11,8 +11,8 @@ jobs:
   tofu:
     name: 'Tofu'
     env:
-      TF_VAR_B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
-      TF_VAR_B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+      TF_VAR_b2_application_key_id: ${{ secrets.b2_application_key_id }}
+      TF_VAR_b2_application_key: ${{ secrets.b2_application_key }}
 
     runs-on: ubuntu-latest
     # environment: # No Environments available in Private (Free) Repo
