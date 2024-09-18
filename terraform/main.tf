@@ -14,6 +14,12 @@ provider "b2" {
   application_key    = var.b2_application_key
 }
 
+resource "b2_application_key" "app_key_synology-backups" {
+  key_name = "synology-backups"
+  bucket_id = b2_bucket.earles_backup
+  capabilities = ["readFiles","writeFiles"]
+}
+
 resource "b2_bucket" "earles_backup" {
   bucket_name = "earles-backup"
   bucket_type = "allPrivate"
