@@ -9,8 +9,11 @@ backend "s3" {
       s3 = "s3.us-west-004.backblazeb2.com"
     }
     bucket = "earles-tfstate"
-    key    = "terraform_backblaze"
-    region = "us-west"
+    key    = "terraform_backblaze.tfstate"
+    region = "us-west-1"
+
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
 }
 }
 
