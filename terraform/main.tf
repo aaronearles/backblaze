@@ -40,7 +40,7 @@ resource "b2_bucket" "earles_backup" {
   bucket_name = "earles-backup"
   bucket_type = "allPrivate"
   default_server_side_encryption {
-    algorithm = "aes256"
+    algorithm = "AES256"
     mode      = "SSE-B2"
   }
 }
