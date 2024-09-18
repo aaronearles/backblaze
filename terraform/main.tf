@@ -4,6 +4,14 @@ terraform {
       source = "Backblaze/b2"
     }
   }
+backend "s3" {
+    endpoints = {
+      s3 = "s3.us-west-004.backblazeb2.com"
+    }
+    bucket = "earles-tfstate"
+    key    = "terraform_backblaze"
+    region = "us-west"
+}
 }
 
 variable "b2_application_key_id" {}
