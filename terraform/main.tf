@@ -32,10 +32,12 @@ provider "b2" {
 resource "b2_application_key" "app_key_synology-backups" {
   key_name = "synology-backups"
   bucket_id = b2_bucket.earles_backup.bucket_id
-  capabilities = ["bypassGovernance","deleteBuckets","deleteFiles","deleteKeys","listBuckets","listFiles","listKeys","readBucketEncryption","readBucketNotifications","readBucketReplications","readBucketRetentions","readBuckets","readFileLegalHolds","readFileRetentions","readFiles","shareFiles","writeBucketEncryption","writeBucketNotifications","writeBucketReplications","writeBucketRetentions","writeBuckets","writeFileLegalHolds","writeFileRetentions","writeFiles","writeKeys"]
+  capabilities = ["deleteFiles","listBuckets","listFiles","readBucketEncryption","readBucketNotifications","readBucketReplications","readBucketRetentions","readBuckets","readFileLegalHolds","readFileRetentions","readFiles","shareFiles","writeBucketEncryption","writeBucketNotifications","writeBucketReplications","writeBucketRetentions","writeBuckets","writeFileLegalHolds","writeFileRetentions","writeFiles",]
 }
 
 resource "b2_bucket" "earles_backup" {
   bucket_name = "earles-backup"
   bucket_type = "allPrivate"
 }
+
+# "bypassGovernance","deleteBuckets","deleteKeys","listKeys","writeKeys"
