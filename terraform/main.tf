@@ -32,8 +32,8 @@ provider "b2" {
 resource "b2_application_key" "app_key_synology-backups" {
   key_name = "synology-backups"
   bucket_id = b2_bucket.earles_backup.bucket_id
-  capabilities = ["deleteFiles","listBuckets","listFiles","readFiles","writeFiles"]
-  # "bypassGovernance","deleteBuckets","deleteKeys","listKeys","writeKeys","readBucketEncryption","readBucketNotifications","readBucketReplications","readBucketRetentions","readBuckets","readFileLegalHolds","readFileRetentions","shareFiles","writeBucketEncryption","writeBucketNotifications","writeBucketReplications","writeBucketRetentions","writeBuckets","writeFileLegalHolds","writeFileRetentions",
+  capabilities = ["deleteFiles","listBuckets","listFiles","readFiles","writeFiles","readBuckets"]
+  # "bypassGovernance","deleteBuckets","deleteKeys","listKeys","writeKeys","readBucketEncryption","readBucketNotifications","readBucketReplications","readBucketRetentions","readFileLegalHolds","readFileRetentions","shareFiles","writeBucketEncryption","writeBucketNotifications","writeBucketReplications","writeBucketRetentions","writeBuckets","writeFileLegalHolds","writeFileRetentions",
 }
 
 resource "b2_bucket" "earles_backup" {
