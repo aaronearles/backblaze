@@ -29,14 +29,29 @@ provider "b2" {
   application_key    = var.b2_application_key
 }
 
-# resource "b2_application_key" "app_key_synology-backups" {
-#   key_name = "synology-backups"
-#   # bucket_id    = b2_bucket.earles_backup.bucket_id
-#   capabilities = ["deleteFiles", "listBuckets", "listFiles", "readFiles", "writeFiles", "readBuckets", "readBucketEncryption", "readBucketNotifications", "readBucketReplications", "readBucketRetentions", "readFileLegalHolds", "readFileRetentions", "bypassGovernance", "deleteBuckets", "deleteKeys", "listKeys", "writeKeys", "shareFiles", "writeBucketEncryption", "writeBucketNotifications", "writeBucketReplications", "writeBucketRetentions", "writeBuckets", "writeFileLegalHolds", "writeFileRetentions", ]
-# } //Removed due to unencrypted bucket.
+resource "b2_application_key" "app_key_synology-backup" {
+  key_name = "synology-backup"
+  bucket_id    = b2_bucket.earles_backup.bucket_id
+  capabilities = ["deleteFiles", "listBuckets", "listFiles", "readFiles", "writeFiles", "readBuckets", "readBucketEncryption", "readBucketNotifications", "readBucketReplications", "readBucketRetentions", "readFileLegalHolds", "readFileRetentions", "bypassGovernance", "deleteBuckets", "deleteKeys", "listKeys", "writeKeys", "shareFiles", "writeBucketEncryption", "writeBucketNotifications", "writeBucketReplications", "writeBucketRetentions", "writeBuckets", "writeFileLegalHolds", "writeFileRetentions", ]
+}
+
+resource "b2_application_key" "app_key_synology-replicate" {
+  key_name = "synology-replicate"
+  bucket_id    = b2_bucket.synology_replica.bucket_id
+  capabilities = ["deleteFiles", "listBuckets", "listFiles", "readFiles", "writeFiles", "readBuckets", "readBucketEncryption", "readBucketNotifications", "readBucketReplications", "readBucketRetentions", "readFileLegalHolds", "readFileRetentions", "bypassGovernance", "deleteBuckets", "deleteKeys", "listKeys", "writeKeys", "shareFiles", "writeBucketEncryption", "writeBucketNotifications", "writeBucketReplications", "writeBucketRetentions", "writeBuckets", "writeFileLegalHolds", "writeFileRetentions", ]
+}
 
 resource "b2_bucket" "earles_backup" {
   bucket_name = "earles-backup"
+  bucket_type = "allPrivate"
+  default_server_side_encryption {
+    algorithm = "AES256"
+    mode      = "SSE-B2"
+  }
+}
+
+resource "b2_bucket" "synology_replica" {
+  bucket_name = "synology-replica"
   bucket_type = "allPrivate"
   default_server_side_encryption {
     algorithm = "AES256"
