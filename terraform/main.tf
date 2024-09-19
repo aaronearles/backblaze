@@ -23,6 +23,8 @@ terraform {
 
 variable "b2_application_key_id" {}
 variable "b2_application_key" {}
+variable "capabilities_all" {}
+variable "capabilities_bucket_admin" {}
 
 provider "b2" {
   application_key_id = var.b2_application_key_id
@@ -32,13 +34,13 @@ provider "b2" {
 resource "b2_application_key" "app_key_synology-backup" {
   key_name     = "synology-backup"
   bucket_id    = b2_bucket.earles_backup.bucket_id
-  capabilities = ["deleteFiles", "listBuckets", "listFiles", "readFiles", "writeFiles", "readBuckets", "readBucketEncryption", "readBucketNotifications", "readBucketReplications", "readBucketRetentions", "readFileLegalHolds", "readFileRetentions", "bypassGovernance", "deleteBuckets", "deleteKeys", "listKeys", "writeKeys", "shareFiles", "writeBucketEncryption", "writeBucketNotifications", "writeBucketReplications", "writeBucketRetentions", "writeBuckets", "writeFileLegalHolds", "writeFileRetentions", ]
+  capabilities = var.capabilities_bucket_admin
 }
 
 resource "b2_application_key" "app_key_synology-replicate" {
   key_name     = "synology-replicate"
   bucket_id    = b2_bucket.synology_replica.bucket_id
-  capabilities = ["deleteFiles", "listBuckets", "listFiles", "readFiles", "writeFiles", "readBuckets", "readBucketEncryption", "readBucketNotifications", "readBucketReplications", "readBucketRetentions", "readFileLegalHolds", "readFileRetentions", "bypassGovernance", "deleteBuckets", "deleteKeys", "listKeys", "writeKeys", "shareFiles", "writeBucketEncryption", "writeBucketNotifications", "writeBucketReplications", "writeBucketRetentions", "writeBuckets", "writeFileLegalHolds", "writeFileRetentions", ]
+  capabilities = var.capabilities_bucket_admin
 }
 
 resource "b2_bucket" "earles_backup" {
