@@ -49,6 +49,12 @@ resource "b2_application_key" "app_key_earles-bedrock" {
   capabilities = var.capabilities_bucket_admin
 }
 
+resource "b2_application_key" "app_key_earles-public" {
+  key_name     = "earles-public"
+  bucket_id    = b2_bucket.earles-public.bucket_id
+  capabilities = var.capabilities_bucket_admin
+}
+
 resource "b2_bucket" "earles_backup" {
   bucket_name = "earles-backup"
   bucket_type = "allPrivate"
@@ -70,8 +76,9 @@ resource "b2_bucket" "synology_replica" {
 resource "b2_bucket" "earles-bedrock" {
   bucket_name = "earles-bedrock"
   bucket_type = "allPrivate"
-  # default_server_side_encryption {
-  #   algorithm = "AES256"
-  #   mode      = "SSE-B2"
-  # }
+}
+
+resource "b2_bucket" "earles-public" {
+  bucket_name = "earles-public"
+  bucket_type = "allPublic"
 }
