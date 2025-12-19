@@ -31,11 +31,12 @@ provider "b2" {
   application_key    = var.b2_application_key
 }
 
-resource "b2_application_key" "app_key_synology-backup" {
-  key_name     = "synology-backup"
-  bucket_id    = b2_bucket.earles_backup.bucket_id
-  capabilities = var.capabilities_bucket_admin
-}
+### DELETE SYNOLOGY HYPERBACKUP 12/19/2025 TO FIX FAILED 11/02 DEPLOY ###
+# resource "b2_application_key" "app_key_synology-backup" {
+#   key_name     = "synology-backup"
+#   bucket_id    = b2_bucket.earles_backup.bucket_id
+#   capabilities = var.capabilities_bucket_admin
+# }
 
 resource "b2_application_key" "app_key_synology-replicate" {
   key_name     = "synology-replicate"
