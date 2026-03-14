@@ -56,6 +56,12 @@ resource "b2_application_key" "app_key_earles-public" {
   capabilities = var.capabilities_bucket_admin
 }
 
+resource "b2_application_key" "app_key_earles-vw-backup" {
+  key_name     = "earles-vw-backup"
+  bucket_id    = b2_bucket.earles-vw-backup.bucket_id
+  capabilities = var.capabilities_bucket_admin
+}
+
 ### DELETE SYNOLOGY HYPERBACKUP 11/02/2025 TO REDUCE COSTS ###
 # resource "b2_bucket" "earles_backup" {
 #   bucket_name = "earles-backup"
@@ -83,4 +89,13 @@ resource "b2_bucket" "earles-bedrock" {
 resource "b2_bucket" "earles-public" {
   bucket_name = "earles-public"
   bucket_type = "allPublic"
+}
+
+resource "b2_bucket" "earles-vw-backup" {
+  bucket_name = "earles-vw-backup"
+  bucket_type = "allPrivate"
+  default_server_side_encryption {
+    algorithm = "AES256"
+    mode      = "SSE-B2"
+  }
 }
