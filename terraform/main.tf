@@ -98,4 +98,12 @@ resource "b2_bucket" "earles-vw-backup" {
     algorithm = "AES256"
     mode      = "SSE-B2"
   }
+  lifecycle_rules {
+    days_from_hiding_to_deleting = 60
+    days_from_uploading_to_hiding = null
+    file_name_prefix = ""
+  }
+  file_lock_configuration {
+    is_file_lock_enabled = false
+  }
 }
