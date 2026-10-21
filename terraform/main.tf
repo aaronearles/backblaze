@@ -25,6 +25,7 @@ variable "b2_application_key_id" {}
 variable "b2_application_key" {}
 variable "capabilities_all" {}
 variable "capabilities_bucket_admin" {}
+variable "capabilities_bucket_writer" {}
 
 provider "b2" {
   application_key_id = var.b2_application_key_id
@@ -44,10 +45,12 @@ resource "b2_application_key" "app_key_synology-replicate" {
   capabilities = var.capabilities_bucket_admin
 }
 
-resource "b2_application_key" "app_key_earles-bedrock" {
-  key_name     = "earles-bedrock"
+# bedrock LXC (aaronearles/mc-lan): world backups, world transfers and add-on artifacts.
+# Read and upload, no delete: lifecycle rules on the bucket do the deleting.
+resource "b2_application_key" "app_key_bedrock-lan" {
+  key_name     = "bedrock-lan"
   bucket_id    = b2_bucket.earles-bedrock.bucket_id
-  capabilities = var.capabilities_bucket_admin
+  capabilities = var.capabilities_bucket_writer
 }
 
 resource "b2_application_key" "app_key_earles-public" {
@@ -84,6 +87,27 @@ resource "b2_bucket" "synology_replica" {
 resource "b2_bucket" "earles-bedrock" {
   bucket_name = "earles-bedrock"
   bucket_type = "allPrivate"
+  default_server_side_encryption {
+    algorithm = "AES256"
+    mode      = "SSE-B2"
+  }
+  # Add-on artifacts and world transfers are kept; replaced or hidden versions go after 30 days.
+  lifecycle_rules {
+    file_name_prefix              = "addons/"
+    days_from_uploading_to_hiding = null
+    days_from_hiding_to_deleting  = 30
+  }
+  # Nightly world backups: hidden after 30 days, deleted 7 days later.
+  lifecycle_rules {
+    file_name_prefix              = "backups/"
+    days_from_uploading_to_hiding = 30
+    days_from_hiding_to_deleting  = 7
+  }
+  lifecycle_rules {
+    file_name_prefix              = "worlds/"
+    days_from_uploading_to_hiding = null
+    days_from_hiding_to_deleting  = 30
+  }
 }
 
 resource "b2_bucket" "earles-public" {
