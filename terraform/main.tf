@@ -65,6 +65,12 @@ resource "b2_application_key" "app_key_earles-vw-backup" {
   capabilities = var.capabilities_bucket_admin
 }
 
+resource "b2_application_key" "app_key_earles-health" {
+  key_name     = "earles-health"
+  bucket_id    = b2_bucket.earles-health.bucket_id
+  capabilities = var.capabilities_bucket_admin
+}
+
 ### DELETE SYNOLOGY HYPERBACKUP 11/02/2025 TO REDUCE COSTS ###
 # resource "b2_bucket" "earles_backup" {
 #   bucket_name = "earles-backup"
@@ -129,5 +135,14 @@ resource "b2_bucket" "earles-vw-backup" {
   }
   file_lock_configuration {
     is_file_lock_enabled = false
+  }
+}
+
+resource "b2_bucket" "earles-health" {
+  bucket_name = "earles-health"
+  bucket_type = "allPrivate"
+  default_server_side_encryption {
+    algorithm = "AES256"
+    mode      = "SSE-B2"
   }
 }
