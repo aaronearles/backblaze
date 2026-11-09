@@ -71,6 +71,20 @@ resource "b2_application_key" "app_key_earles-health" {
   capabilities = var.capabilities_bucket_admin
 }
 
+# aaronearles/unifi OpenTofu state: only its own state file in earles-tfstate, which holds
+# every project's state. No delete: the bucket is versioned, so old states can't be erased.
+resource "b2_application_key" "app_key_unifi-tfstate" {
+  key_name     = "unifi-tfstate"
+  bucket_ids   = [data.b2_bucket.earles-tfstate.bucket_id]
+  name_prefix  = "terraform_unifi.tfstate"
+  capabilities = var.capabilities_bucket_writer
+}
+
+# Created outside terraform; it holds this config's own state.
+data "b2_bucket" "earles-tfstate" {
+  bucket_name = "earles-tfstate"
+}
+
 ### DELETE SYNOLOGY HYPERBACKUP 11/02/2025 TO REDUCE COSTS ###
 # resource "b2_bucket" "earles_backup" {
 #   bucket_name = "earles-backup"
